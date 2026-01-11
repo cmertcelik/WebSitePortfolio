@@ -3,237 +3,373 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Who Am I ?</title>
+  <title>Cemal Mert Çelik | Modern Portfolio</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background: #181c20;
-      color: #eaf6f6;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      background: #f3f6fb;
+      color: #1a1a1a;
       min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
     }
-    #matrix-canvas {
+    .navbar {
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(10,102,194,0.06);
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.6;
-      background: transparent;
-      display: block;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
     }
-    .main-content {
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #0a66c2;
+      font-weight: 500;
+      font-size: 1.05rem;
+      transition: color 0.2s;
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .navbar a:hover, .navbar a.active {
+      color: #004182;
+      border-bottom: 2px solid #0a66c2;
+    }
+    .header-bg {
+      background: #0a66c2;
+      height: 180px;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    .profile-section {
       position: relative;
       z-index: 1;
-      width: 100%;
-      max-width: 900px;
-      margin: 60px auto 0 auto;
+      max-width: 700px;
+      margin: 80px auto 0 auto;
+      padding-top: 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
     }
     .portrait {
-      width: 200px;
-      height: 200px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #43ea7f;
-      background: #232526;
-      box-shadow: 0 4px 16px rgba(67,234,127,0.12);
-      margin-bottom: 16px;
+      border: 4px solid #fff;
+      box-shadow: 0 2px 12px rgba(10,102,194,0.18);
+      background: #fff;
+      margin-top: -70px;
     }
-    h1 {
-      font-size: 2.5rem;
-      margin: 0 0 8px 0;
+    .name {
+      font-size: 2rem;
       font-weight: 700;
-      letter-spacing: 1px;
-      color: #43ea7f;
+      margin-top: 18px;
+      color: #1a1a1a;
       text-align: center;
     }
-    h2 {
-      font-size: 1.3rem;
-      font-weight: 400;
-      margin: 0 0 24px 0;
-      color: #eaf6f6;
-      opacity: 0.85;
-      text-align: center;
-    }
-    .about {
+    .title {
       font-size: 1.1rem;
-      line-height: 1.7;
-      margin-bottom: 16px;
+      color: #0a66c2;
+      margin-bottom: 12px;
       text-align: center;
-      color: #b2dfdb;
-      max-width: 600px;
+      font-weight: 500;
     }
-    .projects {
+    section {
+      scroll-margin-top: 80px;
+    }
+    .about, .projects-section, .contact-section {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(10,102,194,0.06);
+      padding: 32px 24px;
+      margin: 24px 0;
+      max-width: 600px;
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+    .about:hover, .projects-section:hover, .contact-section:hover {
+      box-shadow: 0 4px 24px rgba(10,102,194,0.12);
+    }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #0a66c2;
+      margin-bottom: 18px;
+      letter-spacing: 0.5px;
+      text-align: left;
+    }
+    .about-text {
+      font-size: 1.08rem;
+      color: #444;
+      line-height: 1.7;
+      text-align: left;
+    }
+    .projects-list {
+      margin-top: 12px;
     }
     .project-card {
-      background: rgba(34,38,42,0.65);
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 8px rgba(67,234,127,0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      transition: transform 0.2s;
-      border: 1px solid #43ea7f22;
-      width: 100%;
-      max-width: 600px;
-      backdrop-filter: blur(2px);
+      margin-bottom: 18px;
+      border-bottom: 1px solid #f0f0f0;
+      border-radius: 8px;
+      background: #f8fafc;
+      box-shadow: 0 1px 4px rgba(10,102,194,0.04);
+      transition: box-shadow 0.2s, transform 0.2s;
+      padding-bottom: 0;
     }
-    .project-card:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 6px 24px rgba(67,234,127,0.18);
-      border-color: #43ea7f;
+    .project-card:last-child {
+      border-bottom: none;
+    }
+    .project-toggle {
+      width: 100%;
+      background: none;
+      border: none;
+      color: #0a66c2;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: left;
+      padding: 16px 0;
+      cursor: pointer;
+      transition: color 0.2s;
+      outline: none;
+      border-radius: 8px;
+    }
+    .project-toggle:hover {
+      color: #004182;
+      background: #eaf6fb;
+    }
+    .project-details {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+      padding: 0 0;
+    }
+    .project-card.active .project-details {
+      max-height: 500px;
+      opacity: 1;
+      padding: 12px 0 16px 0;
     }
     .project-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #43ea7f;
-      margin-bottom: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0a66c2;
+      margin-bottom: 6px;
     }
     .project-desc {
       font-size: 1rem;
-      color: #eaf6f6;
-      margin-bottom: 16px;
-      opacity: 0.9;
+      color: #444;
+      margin-bottom: 8px;
+      opacity: 0.95;
+    }
+    .project-links {
+      display: flex;
+      gap: 12px;
     }
     .project-btn {
-      background: linear-gradient(90deg, #43ea7f 0%, #1de9b6 100%);
-      color: #181c20;
+      background: #0a66c2;
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      padding: 10px 22px;
-      font-size: 1rem;
+      border-radius: 6px;
+      padding: 7px 18px;
+      font-size: 0.98rem;
       font-weight: 500;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(67,234,127,0.12);
-      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+      box-shadow: 0 2px 8px rgba(10,102,194,0.10);
+      transition: background 0.18s, transform 0.18s;
       outline: none;
-      position: relative;
-      overflow: hidden;
+      text-decoration: none;
+      display: inline-block;
     }
     .project-btn:hover {
-      transform: scale(1.07) translateY(-2px);
-      box-shadow: 0 6px 24px rgba(67,234,127,0.22);
-      background: linear-gradient(90deg, #1de9b6 0%, #43ea7f 100%);
-      color: #fff;
+      background: #004182;
+      transform: scale(1.05);
     }
-    @media (max-width: 600px) {
-      .main-content {
-        padding: 0 8px;
-      }
-      .project-card {
+    .contact-section {
+      text-align: left;
+    }
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 1.05rem;
+    }
+    .contact-list li {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .contact-list a {
+      color: #0a66c2;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .contact-list a:hover {
+      color: #004182;
+      text-decoration: underline;
+    }
+    @media (max-width: 700px) {
+      .profile-section, .about, .projects-section, .contact-section {
+        max-width: 98vw;
         padding: 14px;
+      }
+      .header-bg {
+        height: 120px;
+      }
+      .portrait {
+        width: 100px;
+        height: 100px;
+        margin-top: -50px;
+      }
+      .navbar {
+        height: 48px;
+      }
+      .navbar ul {
+        gap: 18px;
       }
     }
   </style>
 </head>
 <body>
-  <canvas id="matrix-canvas"></canvas>
-  <div class="main-content">
-    <img src="portrait.png" alt="Portre" class="portrait">
-    <h1>Cemal Mert Çelik</h1>
-    <h2>Bilgisayar Mühendisi</h2>
-    <div class="about">
-      Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden Ocak 2025'te mezun oldum. Siber güvenlik, uygulama
-geliştirme, ağ sistemleri, mobil geliştirme, görsel programlama ve donanım gibi farklı alanlara ilgi duyuyorum. 
-Güncel olarak .NET, C#, GO teknolojileri ile projeler geliştiriyorum.
-Takım çalışmasını, gelişimi ve yeni şeyler öğrenmeyi severim.
-    </div>
-    <div class="projects">
-
-      <h2 style="font-size: 40px;">Projelerim</h2>
-
-      <div class="project-card">
-        <div class="project-title">Cihaz Takip ve Yönetim Sistemi</div>
-        <div class="project-desc">
-          Kullanılan cihazların anlık sistem durumlarını kontrol edebilecek, 
-          ürünlerin yeni sürümlerinin cihazlara uzaktan kurulumlarını yapabilecek bir yapı tasarladım. 
-          C#, Worker Service, gRPC ve Microsoft SQL Server gibi teknolojileri kullandım.
+  <nav class="navbar">
+    <ul>
+      <li><a href="#about" class="active">Hakkında</a></li>
+      <li><a href="#projects">Projeler</a></li>
+      <li><a href="#contact">İletişim</a></li>
+    </ul>
+  </nav>
+  <div class="header-bg"></div>
+  <div class="profile-section">
+    <img src="photo.jpeg" alt="Portre" class="portrait">
+    <div class="name">Cemal Mert Çelik</div>
+    <div class="title">Bilgisayar Mühendisi</div>
+    <section id="about" class="about">
+      <div class="section-title">Hakkında</div>
+      <div class="about-text">
+        Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden Ocak 2025'te mezun oldum. Siber güvenlik, uygulama geliştirme, ağ sistemleri, mobil geliştirme, görsel programlama ve donanım gibi farklı alanlara ilgi duyuyorum.<br>
+        Güncel olarak .NET, C#, GO teknolojileri ile projeler geliştiriyorum.<br>
+        Takım çalışmasını, gelişimi ve yeni şeyler öğrenmeyi severim.
+      </div>
+    </section>
+    <section id="projects" class="projects-section">
+      <div class="section-title">Projelerim</div>
+      <div class="projects-list">
+        <div class="project-card">
+          <button class="project-toggle" type="button">Cihaz Takip ve Yönetim Sistemi</button>
+          <div class="project-details">
+            <div class="project-desc">
+              Kullanılan cihazların anlık sistem durumlarını kontrol edebilecek, ürünlerin yeni sürümlerinin cihazlara uzaktan kurulumlarını yapabilecek bir yapı tasarladım. C#, Worker Service, gRPC ve Microsoft SQL Server gibi teknolojileri kullandım.
+            </div>
+            <div class="project-links">
+              
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <button class="project-toggle" type="button">Otopark Yönetim Sistemi</button>
+          <div class="project-details">
+            <div class="project-desc">
+              Ufak çaplı işletmelere yönelik otopark yönetim sistemi geliştirdim. Araç giriş-çıkış takibi, abonelik yönetimi ve raporlama özellikleri bulunuyor. C# ve Microsoft SQL Server kullandım.
+            </div>
+            <div class="project-links">
+              
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <button class="project-toggle" type="button">Media Upload Sitesi</button>
+          <div class="project-details">
+            <div class="project-desc">
+              Kullanıcıların düğün, nişan benzeri organizasyonlarda insanlar tarafından çekilen fotoğraf ve videoları yükleyebilmeleri için bir web sitesi geliştirdim. Site için HTML, CSS ve JavaScript kullandım. API tarafı için GO dilini tercih ettim. İşlemlerin kaydı için SQLite veritabanı kullandım.
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/cmertcelik/QRWEDDINGPROJECT" target="_blank" class="project-btn">GitHub</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <button class="project-toggle" type="button">Yapay Zeka Destekli Hareket Analizi Sistemi</button>
+          <div class="project-details">
+            <div class="project-desc">
+              Bitirme Projem olarak yapay zeka destekli hareket analizi sistemi geliştirdim. Projenin mobil tarafı için Flutter kullanarak donanımla etkileşimli bir uygulama geliştirdim. Donanım tarafında ise yapay zeka modeli çalıştıran bir arduino tabanlı kart kullandım. Projede kullanılan modeli boksörlerin hareketlerini inceleyerek ve yine bu projede bir araya getirdiğim donanımla verileri topladım ve verilerden modeli eğittim.
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/cmertcelik/UPPERCUT-boxify" target="_blank" class="project-btn">GitHub</a>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-title">Otopark Yönetim Sistemi</div>
-        <div class="project-desc">
-          Ufak çaplı işletmelere yönelik otopark yönetim sistemi geliştirdim. Araç giriş-çıkış takibi, abonelik yönetimi ve raporlama özellikleri bulunuyor. 
-          C# ve Microsoft SQL Server kullandım.
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-title">Media Upload Sitesi</div>
-        <div class="project-desc">
-          Kullanıcıların düğün, nişan benzeri organizasyonlarda insanlar tarafından çekilen fotoğraf ve videoları yükleyebilmeleri için bir web sitesi geliştirdim. Site için HTML, CSS ve JavaScript kullandım.
-          API tarafı için GO dilini tercih ettim. İşlemlerin kaydı için SQLite veritabanı kullandım.
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-title">Yapay Zeka Destekli Hareket Analizi Sistemi</div>
-        <div class="project-desc">
-          Bitirme Projem olarak yapay zeka destekli hareket analizi sistemi geliştirdim. Projenin mobil tarafı için Flutter kullanarak donanımla etkileşimli bir uygulama geliştirdim.
-          Donanım tarafında ise yapay zeka modeli çalıştıran bir arduino tabanlı kart kullandım. Projede kullanılan modeli boksörlerin hareketlerini
-           inceleyerek ve yine bu projede bir araya getirdiğim donanımla verileri topladım ve verilerden modeli eğittim.
-        </div>
-      </div>
-
-    </div>
+    </section>
+    <section id="contact" class="contact-section">
+      <div class="section-title">İletişim</div>
+      <ul class="contact-list">
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="#0a66c2" style="vertical-align:middle">
+            <rect width="20" height="20" rx="4" fill="#eaf6fb"/>
+            <path d="M4 6.5C4 5.67 4.67 5 5.5 5H14.5C15.33 5 16 5.67 16 6.5V13.5C16 14.33 15.33 15 14.5 15H5.5C4.67 15 4 14.33 4 13.5V6.5ZM5.5 7L10 10.25L14.5 7" stroke="#0a66c2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <a href="mailto:bymertcelik@gmail.com">bymertcelik@gmail.com</a>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="#0a66c2" style="vertical-align:middle">
+            <rect width="20" height="20" rx="4" fill="#eaf6fb"/>
+            <path d="M4 6.5C4 5.67 4.67 5 5.5 5H14.5C15.33 5 16 5.67 16 6.5V13.5C16 14.33 15.33 15 14.5 15H5.5C4.67 15 4 14.33 4 13.5V6.5ZM5.5 7L10 10.25L14.5 7" stroke="#0a66c2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <a href="mailto:cemalmertcelik@gmail.com">cemalmertcelik@gmail.com</a>
+        </li>
+        <li>
+          <svg width="20" height="20" fill="#0a66c2" style="vertical-align:middle"><rect x="4" y="4" width="12" height="12" rx="3"/></svg>
+          <a href="https://www.linkedin.com/in/celik-mert/" target="_blank">LinkedIn</a>
+        </li>
+        <li>
+          <svg width="20" height="20" fill="#0a66c2" style="vertical-align:middle"><rect x="3" y="7" width="14" height="6" rx="2"/></svg>
+          <a href="https://github.com/cmertcelik" target="_blank">GitHub</a>
+        </li>
+      </ul>
+    </section>
   </div>
   <script>
-    // Matrix animation
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    let w = window.innerWidth;
-    let h = window.innerHeight;
-    canvas.width = w;
-    canvas.height = h;
-
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
-    const fontSize = 20;
-    const columns = Math.floor(w / fontSize);
-    const drops = Array(columns).fill(1);
-
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(24,28,32,0.18)';
-      ctx.fillRect(0, 0, w, h);
-
-      ctx.font = fontSize + 'px monospace';
-      for (let i = 0; i < columns; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillStyle = '#43ea7f';
-        ctx.shadowColor = '#43ea7f';
-        ctx.shadowBlur = 8;
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > h && Math.random() > 0.975) {
-          drops[i] = 0;
+    // Navbar active link highlight
+    const navLinks = document.querySelectorAll('.navbar a');
+    window.addEventListener('scroll', () => {
+      let fromTop = window.scrollY + 80;
+      navLinks.forEach(link => {
+        const section = document.querySelector(link.getAttribute('href'));
+        if (
+          section.offsetTop <= fromTop &&
+          section.offsetTop + section.offsetHeight > fromTop
+        ) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
         }
-        drops[i]++;
-      }
-      ctx.shadowBlur = 0;
-    }
-
-    setInterval(drawMatrix, 50);
-
-    function resizeCanvas() {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w;
-      canvas.height = h;
-    }
-    window.addEventListener('resize', resizeCanvas);
+      });
+    });
+    // Proje açılır/kapanır
+    document.querySelectorAll('.project-toggle').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.parentElement;
+        card.classList.toggle('active');
+        // Diğer kartları kapatmak için:
+        document.querySelectorAll('.project-card').forEach(otherCard => {
+          if (otherCard !== card) otherCard.classList.remove('active');
+        });
+      });
+    });
   </script>
 </body>
 </html>
